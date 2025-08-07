@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Jubilados</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label, input, button { margin-top: 10px; display: block; }
+    #resultado { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Consulta de Jubilados por Cédula</h1>
+
+  <input type="file" id="archivoCSV" accept=".csv" />
+  
+  <label for="cedulaInput">Ingrese la cédula a consultar:</label>
+  <input type="text" id="cedulaInput" placeholder="Ej: 12345678" />
+  <button onclick="buscarCedula()">Buscar</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    let datos = [];
+
+    document.getElementById('archivoCSV').addEventListener('change', function(e) {
+      const archivo = e.target.files[0];
+      const lector = new FileReader();
+      
+      lector.onload = function(e) {
+        const contenido = e.target.result;
+        const lineas = contenido.split('\\n').slice(1);
+        datos = lineas.map(linea => {
+          const partes = linea.trim().split(',');
+          return {
+            nombre: partes[0],
+            cedula: partes[1],
+            estado: partes[2]
+          };
+        });
+        alert('Archivo cargado correctamente.');
+      };
+      lector.readAsText(archivo);
+    });
+Inmaculada123+*
